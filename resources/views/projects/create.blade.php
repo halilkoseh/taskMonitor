@@ -1,0 +1,95 @@
+<style>
+    .card:hover {
+        transform: translateY(-5px);
+        box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    }
+
+    .content-container {
+        min-height: 100vh;
+        padding: 20px;
+        box-sizing: border-box;
+    }
+</style>
+
+@extends(in_array(auth()->user()->is_admin, [0, 2]) ? 'userLayout.app' : 'layout.app')
+
+@section('content')
+    <div class="content-container flex items-center justify-center min-h-screen p-5 box-border ">
+
+        <div class="max-w-lg w-screen bg-white rounded-lg shadow-md p-8 mt-12  ">
+            <div class="mt-6 mb-6">
+                <a href="{{ route('projects.index') }}"
+                    class="text-sky-500 hover:text-blue-800 transition-colors duration-200">
+                    <i class="fa-solid fa-chevron-left"></i> Geri Dön
+                </a>
+            </div>
+            <h1 class="text-3xl font-semibold text-gray-600 mb-16 mt-16 flex justify-center">Proje Oluştur</h1>
+            <form action="{{ route('projects.store') }}" method="POST">
+                @csrf
+                <div class="mb-5">
+                    <label for="name" class="block text-sm font-medium text-gray-700">Proje Adı</label>
+                    <input type="text" name="name" id="name"
+                        class="mt-2 block w-full border border-gray-200 rounded-lg shadow-sm focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm p-3"
+                        required>
+                </div>
+
+                <div class="space-y-2">
+                    <label for="project_manager" class="block text-gray-700 font-medium">Proje Müdürü</label>
+                    <select name="project_manager"
+                        class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-200 focus:outline-none">
+                        <option value="">Müdür Seç</option>
+                        @foreach($users as $user)
+                            <option value="{{ $user->id }}">{{ $user->name }}</option>
+                        @endforeach
+                    </select>
+                </div>
+                
+
+                <div class="mb-5">
+                    <label for="type" class="block text-sm font-medium text-gray-700 mt-2">Proje Türü</label>
+                    <input type="text" name="type" id="type"
+                        class="mt-2 block w-full border border-gray-200 rounded-lg shadow-sm focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm p-3"
+                        required>
+                </div>
+                <div class="mb-5">
+                    <label for="description" class="block text-sm font-medium text-gray-700">Açıklama</label>
+                    <textarea name="description" id="description" rows="4"
+                        class="mt-2 block w-full border border-gray-200 rounded-lg shadow-sm focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm p-3"></textarea>
+                </div>
+
+
+                <div class="mb-5">
+                    <label for="users" class="block text-sm font-medium text-gray-700">Kullanıcılar (Proje Müdürü Dahil)</label>
+                    <select name="users[]" id="users" multiple
+                        class="mt-2 block w-full border border-gray-200 rounded-lg shadow-sm focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm p-3">
+                        @foreach ($users as $user)
+                            <option value="{{ $user->id }}" {{ $user->id == 1 ? 'selected' : '' }}>
+                                {{ $user->name }}
+                            </option>
+                        @endforeach
+                    </select>
+                </div>
+
+
+
+
+                <div class="mb-5">
+                    <button type="submit"
+                        class="w-full bg-sky-600 text-white py-3 rounded-lg shadow-md hover:bg-indigo-700 mb-16">Oluştur</button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            const usersSelect = document.getElementById('users');
+            const choices = new Choices(usersSelect, {
+                removeItemButton: true,
+                searchPlaceholderValue: 'Ara...',
+                noResultsText: 'Sonuç bulunamadı',
+                itemSelectText: 'Seç',
+            });
+        });
+    </script>
+@endsection
