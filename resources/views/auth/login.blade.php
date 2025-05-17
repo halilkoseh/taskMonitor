@@ -79,6 +79,24 @@
                 Yap</button>
         </form>
 
+        <!-- Demo Credentials Box -->
+        <div class="mt-4 p-4 bg-blue-50 border border-blue-200 rounded-md">
+            <h3 class="text-lg font-medium text-blue-800 mb-2">Demo Kullanıcı Bilgileri</h3>
+            <div class="grid grid-cols-2 gap-2 text-sm">
+                <div>
+                    <p class="font-semibold">Admin Kullanıcı:</p>
+                    <p>Username: <span class="font-mono bg-gray-100 px-1 rounded">admin</span></p>
+                    <p>Password: <span class="font-mono bg-gray-100 px-1 rounded">password</span></p>
+                </div>
+                <div>
+                    <p class="font-semibold">Normal Kullanıcı:</p>
+                    <p>Username: <span class="font-mono bg-gray-100 px-1 rounded">fawuqifaby</span></p>
+                    <p>Password: <span class="font-mono bg-gray-100 px-1 rounded">password</span></p>
+                </div>
+            </div>
+            <p class="mt-2 text-xs text-gray-500">Bu bir demo projedir. Lütfen gerçek bilgilerinizi kullanmayınız.</p>
+        </div>
+
         @if ($errors->any())
         <div class="mt-4">
             @foreach ($errors->all() as $error)
